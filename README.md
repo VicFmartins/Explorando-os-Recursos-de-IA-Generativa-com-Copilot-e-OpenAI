@@ -1,7 +1,5 @@
 # Explorando IA Generativa com Copilot e OpenAI
 
-Este repositorio deixou de ser apenas um relato do exercicio e virou um MVP executavel. A proposta agora e transformar uma ideia de negocio em um `startup pack` com nome de empresa, resumo executivo, oportunidade de mercado, estrutura de pitch, email para investidor e prompt de logo.
-
 ## O que o projeto entrega
 
 - API REST em FastAPI
@@ -96,10 +94,3 @@ Os testes cobrem:
 
 - geracao estruturada no fallback local
 - resposta do endpoint principal
-
-## Proximos passos
-
-- adicionar interface web
-- exportar o startup pack para markdown e slides
-- salvar historico de geracoes
-- permitir diferentes templates de pitch
