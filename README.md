@@ -1,26 +1,105 @@
-# Explorando-os-Recursos-de-IA-Generativa-com-Copilot-e-OpenAI
+# Explorando IA Generativa com Copilot e OpenAI
 
-Neste exercício, exploramos como o Microsoft Copilot pode ser usado para aumentar a produtividade ao criar conteúdos de maneira eficiente. Começamos com algumas notas de alto nível para uma ideia de negócio e usamos o Copilot no Microsoft Edge para desenvolver um plano de negócios e uma apresentação para potenciais investidores.
+Este repositorio deixou de ser apenas um relato do exercicio e virou um MVP executavel. A proposta agora e transformar uma ideia de negocio em um `startup pack` com nome de empresa, resumo executivo, oportunidade de mercado, estrutura de pitch, email para investidor e prompt de logo.
 
-Processo:
-Início e Preparação:
-Baixe e instale o Microsoft Edge, se ainda não o tiver, e faça login usando uma conta da Microsoft.
-Acesse o OneDrive e abra o documento Business Idea.docx disponível no GitHub, salvando-o em sua conta do OneDrive.
-Exploração de Ideias:
-Use o Microsoft Copilot no Edge para examinar o documento e extrair insights sobre a ideia de negócio, como resumo do documento e oportunidade de mercado.
-Criação do Plano de Negócios:
-Solicite ao Copilot sugestões de nomes para a empresa de limpeza e, em seguida, peça para criar um plano de negócios com base nas informações do documento inicial.
-Design e Identidade Visual:
-Peça ao Copilot para criar um logotipo para a empresa de limpeza e selecione um design que represente bem a marca.
-Desenvolvimento da Apresentação:
-Utilize o Copilot para escrever um resumo dos benefícios de contratar uma empresa de limpeza corporativa e gerar uma imagem representativa de um escritório limpo para a apresentação.
-Comunicação com Investidores:
-Com base nas informações geradas, escreva um e-mail profissional solicitando uma reunião com um banco de investimento para discutir o financiamento da empresa de limpeza.
-Insights e Possibilidades:
-Durante este exercício, aprendemos a:
+## O que o projeto entrega
 
-Utilizar a IA generativa para extrair insights de documentos e gerar conteúdo de qualidade.
-Criar um plano de negócios completo, incluindo nome da empresa, resumo executivo, visão de mercado e projeções financeiras.
-Desenvolver uma identidade visual forte, incluindo um logotipo distintivo.
-Criar apresentações persuasivas e comunicar efetivamente com investidores por meio de e-mails profissionais.
-Essas ferramentas não apenas aumentam a eficiência na criação de conteúdo, mas também fornecem insights valiosos e auxiliam em diferentes etapas do desenvolvimento de um negócio.
+- API REST em FastAPI
+- geracao de startup pack a partir de uma ideia
+- integracao opcional com a OpenAI API
+- modo local de fallback para demonstracao sem chave
+- instrucoes de repositorio para Copilot
+- exemplos de payload e workflow
+- testes automatizados
+
+## Endpoints
+
+### `GET /health`
+
+Retorna o status da API.
+
+### `POST /api/startup-pack`
+
+Recebe uma ideia e devolve materiais iniciais de negocio.
+
+Exemplo de payload:
+
+```json
+{
+  "business_idea": "Uma startup que usa IA generativa para transformar uma ideia inicial em plano de negocio, pitch deck, email para investidor e proposta visual.",
+  "audience": "fundadores em fase inicial",
+  "region": "Brasil",
+  "tone": "profissional"
+}
+```
+
+## Como executar localmente
+
+### Com Python
+
+```bash
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+### Com Docker
+
+```bash
+docker build -t copilot-openai-genai .
+docker run -p 8000:8000 copilot-openai-genai
+```
+
+## OpenAI
+
+Se `OPENAI_API_KEY` estiver configurada, a API usa a OpenAI Responses API.
+
+Base de ambiente em [.env.example](.env.example).
+
+Se a chave nao estiver configurada, o projeto continua funcionando em modo local de demonstracao com templates.
+
+## Copilot
+
+Tambem deixei instrucoes de repositorio em [.github/copilot-instructions.md](.github/copilot-instructions.md), para orientar o uso do GitHub Copilot em tarefas como:
+
+- expandir ideia de negocio
+- revisar pitch
+- transformar o pack em slides
+- ajustar linguagem para investidores
+
+## Estrutura do projeto
+
+- `app/main.py`: endpoints da API
+- `app/openai_generator.py`: integracao com OpenAI Responses API
+- `app/fallback_generator.py`: fallback local sem API key
+- `app/models.py`: contratos da API
+- `docs/workflow.md`: fluxo combinado Copilot + OpenAI
+- `examples/sample-request.json`: payload pronto para teste
+- `.github/copilot-instructions.md`: instrucoes de repositorio para Copilot
+
+## Referencias oficiais
+
+Para alinhar o projeto com a documentacao atual da OpenAI, usei como base referencias oficiais:
+
+- [OpenAI API FAQ](https://platform.openai.com/docs/faq/should-i-use-chatgpt-or-the-api)
+- [Responses API guide](https://platform.openai.com/docs/guides/responses)
+- [Text generation guide](https://platform.openai.com/docs/guides/text)
+
+Pela documentacao oficial atual, a OpenAI recomenda em geral comecar por `gpt-4o` ou `gpt-4o-mini`; por isso o projeto usa `gpt-4o-mini` como padrao em [.env.example](.env.example).
+
+## Validacao
+
+```bash
+pytest
+```
+
+Os testes cobrem:
+
+- geracao estruturada no fallback local
+- resposta do endpoint principal
+
+## Proximos passos
+
+- adicionar interface web
+- exportar o startup pack para markdown e slides
+- salvar historico de geracoes
+- permitir diferentes templates de pitch
